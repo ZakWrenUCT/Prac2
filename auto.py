@@ -1,12 +1,5 @@
 import os
 
-os.system("pwd")
-# os.system("python Python/PythonHeterodyning.py")
-
-# File_object = open(r"Python/PythonHeterodyning.py", "r")
-# print(File_object.readlines()[0])
-# File_object.close
-
 # 2 threads, 4 threads, 8 threads, 16 threads and 32 threads.
 def setThreads(a):
     File_object = open(r"./C/src/CHeterodyning_threaded.h", "r+")
@@ -76,8 +69,61 @@ def setBits(a):
 # setBits("float")
 # setCC("-mfp16-format=iee")
 
-# os.system("cd ./C && make")
-
 # Test
+
 # for i in range(20):
-os.system("cd ./Python/ && ./PythonHeterodyning.py")
+
+print("Python measure:\n")
+os.system("cd ./Python/ && python PythonHeterodyning.py")
+
+print("C floats measure:\n")
+setBits("float")
+os.system("cd ./C && make")
+os.system("cd ./C/bin && ./CHeterodyning")
+
+print("C 1 thread measure:\n")
+os.system("cd ./C/bin && ./CHeterodyning_threaded")
+
+nums =[2,4,6,16,32]
+for b in nums:
+    print("C {} threads measure:\n".format(b))
+    setThreads(b)
+    os.system("cd ./C && make")
+    os.system("cd ./C/bin && ./CHeterodyning_threaded")
+
+print("pi has one core")
+
+flags =["-O0","-O1","-O2","-O3","-Ofast","-Os","-Og"]
+for b in flags:
+    print("C {} flag measure:\n".format(b))
+    setCFLAGS(b)
+    os.system("cd ./C && make")
+    os.system("cd ./C/bin && ./CHeterodyning_threaded")
+flags =["-O0","-O1","-O2","-O3","-Ofast","-Os","-Og"]
+for b in flags:
+    print("C {} -funroll-loops flag measure:\n".format(b))
+    setCFLAGS(b+" -funroll-loops")
+    os.system("cd ./C && make")
+    os.system("cd ./C/bin && ./CHeterodyning_threaded")
+b="-O3 -Os"
+print("C {} flag measure:\n".format(b))
+setCFLAGS(b)
+os.system("cd ./C && make")
+os.system("cd ./C/bin && ./CHeterodyning_threaded")
+b="-O3 -Os -funroll-loops"
+print("C {} flag measure:\n".format(b))
+setCFLAGS(b)
+os.system("cd ./C && make")
+os.system("cd ./C/bin && ./CHeterodyning_threaded")
+
+setCFLAGS("")
+print("float is 32-bits")
+
+setBits("double")
+print("double is 64-bits")
+
+setBits("__fp16")
+setCC("-mfp16-format=iee")
+print("__fp16 is 16-bits")
+
+print("Best combo is: \n")
