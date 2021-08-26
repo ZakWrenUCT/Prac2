@@ -1,6 +1,6 @@
 #include "CHeterodyning.h"
 
-extern float data [SAMPLE_COUNT];
+extern float data[SAMPLE_COUNT];
 extern float carrier[SAMPLE_COUNT];
 
 float result [SAMPLE_COUNT];
