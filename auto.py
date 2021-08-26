@@ -156,4 +156,10 @@ for i in range(4):
     os.system("cd ./C && make run_threaded > /dev/null")
 os.system("cd ./C && make run_threaded")
 
+
+# setCFLAGS("-Og -funroll-loops")
+# os.system("cd ./C && make")
+# for i in range(4):
+#     os.system("cd ./C && make run_threaded > /dev/null")
+# os.system("cd ./C && make run_threaded")
 # print("Best combo is: 16 threads with no extra compiler flags\n")
